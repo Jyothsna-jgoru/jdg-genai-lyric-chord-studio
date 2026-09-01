@@ -1,0 +1,6 @@
+size = 96
+seed = 42
+output_dir = "data/generated/dev"
+train_ratio = 0.75
+validation_ratio = 0.125
+

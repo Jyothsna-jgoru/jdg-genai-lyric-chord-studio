@@ -1,0 +1,20 @@
+{
+  "total_parameters": 77305216,
+  "trainable_parameters": 344064,
+  "trainable_percentage": 0.445072,
+  "confirmed_target_modules": [
+    "q",
+    "v"
+  ],
+  "only_lora_trainable": true,
+  "adapter_path": "storage\\adapters\\dev",
+  "training_metrics": {
+    "train_runtime": 327.4346,
+    "train_samples_per_second": 0.244,
+    "train_steps_per_second": 0.244,
+    "total_flos": 7789721309184.0,
+    "train_loss": 2.4665409326553345,
+    "epoch": 1.095890410958904
+  },
+  "seed": 42
+}

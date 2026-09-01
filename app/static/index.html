@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Local FLAN-T5 and LoRA lyric-to-chord generation studio by Jyothsna Devi Goru.">
+  <title>JDG GenAI Lyric-to-Chord Studio</title>
+  <link rel="stylesheet" href="/static/styles.css?v=2">
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">Local generative music workspace</p>
+      <h1>JDG GenAI Lyric-to-Chord Studio</h1>
+      <p class="byline">Built by Jyothsna Devi Goru</p>
+    </header>
+
+    <p id="status" role="status" aria-live="polite">Ready.</p>
+
+    <section aria-labelledby="project-heading">
+      <h2 id="project-heading">Project</h2>
+      <div class="form-row">
+        <label>Project name <input id="project-name" maxlength="120" value="New Original Song"></label>
+        <label>Open project <select id="project-list"><option value="">Select a saved project</option></select></label>
+      </div>
+      <div class="button-row">
+        <button id="save">Save</button><button id="open">Open</button><button id="rename">Rename</button>
+        <button id="duplicate">Duplicate</button><button id="delete">Delete</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="lyrics-heading">
+      <h2 id="lyrics-heading">Lyrics</h2>
+      <label for="lyrics">Paste original lyrics. Headings such as [Verse], Chorus:, and (Bridge) are detected locally.</label>
+      <textarea id="lyrics" rows="12" maxlength="20000" spellcheck="true">[Verse]
+Morning finds a window where the quiet colors grow
+I carry little sparks along the road I choose
+
+[Chorus]
+We build a home from echoes and a steady open door
+I hear tomorrow calling through the branches in the wind</textarea>
+      <div class="button-row"><button id="analyze">Analyze lyrics</button></div>
+      <div id="section-editor" aria-label="Detected section editor"></div>
+    </section>
+
+    <section aria-labelledby="controls-heading">
+      <h2 id="controls-heading">Musical controls</h2>
+      <div class="controls-grid">
+        <label>Key <select id="key"><option>C</option><option>Db</option><option>D</option><option>Eb</option><option>E</option><option>F</option><option>F#</option><option>G</option><option>Ab</option><option>A</option><option>Bb</option><option>B</option></select></label>
+        <label>Scale <select id="scale"><option value="major">Major</option><option value="natural_minor">Natural minor</option><option value="harmonic_minor">Harmonic minor</option><option value="melodic_minor">Melodic minor</option></select></label>
+        <label>Genre <select id="genre"><option>pop</option><option>rock</option><option>acoustic</option><option>ballad</option><option>folk</option><option>blues</option><option>R&amp;B</option><option>cinematic</option></select></label>
+        <label>Mood <select id="mood"><option>hopeful</option><option>happy</option><option>sad</option><option>dark</option><option>calm</option><option>energetic</option><option>romantic</option><option>reflective</option></select></label>
+        <label>Tempo <input id="tempo" type="number" min="30" max="240" value="96"></label>
+        <label>Time signature <select id="time-signature"><option>4/4</option><option>3/4</option><option>2/4</option><option>6/8</option><option>7/8</option></select></label>
+        <label>Difficulty <select id="difficulty"><option>beginner</option><option>intermediate</option><option>advanced</option></select></label>
+        <label>Chord density <input id="density" type="range" min="1" max="4" value="2"><output id="density-value">2</output></label>
+        <label>Variation <input id="variation" type="range" min="0" max="1" step="0.05" value="0.35"><output id="variation-value">0.35</output></label>
+        <label>Seed <input id="seed" type="number" min="0" max="2147483647" value="42"></label>
+        <label>Decoding method <select id="decoding"><option value="greedy">Greedy</option><option value="beam">Beam search</option><option value="temperature">Temperature sampling</option><option value="top_k">Top-k sampling</option></select></label>
+      </div>
+      <div class="button-row"><button id="generate">Generate complete song</button></div>
+      <div id="generation-progress" class="generation-progress" role="status" aria-live="polite" hidden>
+        <span class="generation-spinner" aria-hidden="true"></span>
+        <div class="generation-copy">
+          <strong id="generation-progress-title">Creating your arrangement…</strong>
+          <span id="generation-progress-detail">Preparing your lyrics and musical controls.</span>
+          <div class="generation-meta">
+            <span id="generation-elapsed">0 seconds elapsed</span>
+            <span>Local CPU generation takes about 1 minute and may need up to 90 seconds.</span>
+          </div>
+          <span class="generation-track" aria-hidden="true"><span></span></span>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="sheet-heading">
+      <h2 id="sheet-heading">Editable chord sheet</h2>
+      <p>Type a chord above any lyric word to edit, add, or move it. Manual edits are validated before playback and export.</p>
+      <div class="form-row">
+        <label>Selected section <select id="selected-section"><option value="">No sections yet</option></select></label>
+        <button id="regenerate">Regenerate selected section</button>
+        <label>Transpose to <select id="transpose-key"><option>C</option><option>Db</option><option>D</option><option>Eb</option><option>E</option><option>F</option><option>F#</option><option>G</option><option>Ab</option><option>A</option><option>Bb</option><option>B</option></select></label>
+        <button id="transpose">Transpose</button>
+      </div>
+      <div id="chord-sheet" class="chord-sheet" aria-label="Chord sheet output">Generate a song to see its chord sheet.</div>
+    </section>
+
+    <section aria-labelledby="playback-heading">
+      <h2 id="playback-heading">Playback</h2>
+      <p class="helper">Hear the chord accompaniment plus an original lead melody shaped by your lyrics, syllables, mood, key, variation, and seed. It does not reproduce an existing recording.</p>
+      <div class="form-row">
+        <label>Timbre <select id="timbre"><option value="piano">Piano-like</option><option value="pad">Soft pad</option><option value="pluck">Acoustic-style pluck</option><option value="synth">Clean synth</option></select></label>
+        <label>Volume <input id="volume" type="range" min="0" max="1" step="0.01" value="0.55"></label>
+      </div>
+      <div class="button-row"><button id="play">Play</button><button id="pause">Pause</button><button id="resume">Resume</button><button id="stop">Stop</button><button id="restart">Restart</button></div>
+      <p id="now-playing">Stopped.</p>
+    </section>
+
+    <section aria-labelledby="exports-heading">
+      <h2 id="exports-heading">Exports</h2>
+      <div class="button-row"><button data-export="txt">TXT download</button><button data-export="json">JSON download</button><button data-export="pdf">PDF download</button><button data-export="midi">MIDI download</button></div>
+    </section>
+
+    <details>
+      <summary>Technical details</summary>
+      <dl id="technical-details">
+        <dt>Model</dt><dd>Checking…</dd>
+      </dl>
+    </details>
+  </main>
+  <script src="/static/app.js?v=5" defer></script>
+</body>
+</html>

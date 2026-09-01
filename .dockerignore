@@ -1,0 +1,17 @@
+.git
+.github
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.pytest_tmp
+checkpoints
+data/generated
+storage/model-cache
+storage/exports
+storage/*.db
+storage/mlruns
+tests
+work
+*.zip
+*.log

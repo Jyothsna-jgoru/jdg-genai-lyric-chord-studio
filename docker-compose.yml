@@ -1,0 +1,21 @@
+services:
+  studio:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      JDG_DATABASE_URL: sqlite:////studio/storage/jdg_studio.db
+      JDG_ADAPTER_PATH: /studio/storage/adapters/dev
+      JDG_MODEL_AUTOLOAD: "true"
+      JDG_ALLOW_MODEL_DOWNLOAD: "true"
+      HF_HOME: /studio/storage/model-cache
+    volumes:
+      - jdg-database:/studio/runtime
+      - jdg-exports:/studio/storage/exports
+      - jdg-model-cache:/studio/storage/model-cache
+    restart: unless-stopped
+
+volumes:
+  jdg-database:
+  jdg-exports:
+  jdg-model-cache:

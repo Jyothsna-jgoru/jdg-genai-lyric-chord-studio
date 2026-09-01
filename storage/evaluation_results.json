@@ -1,0 +1,80 @@
+{
+  "base_model": "google/flan-t5-small",
+  "adapter_path": "storage/adapters/dev",
+  "device": "cpu",
+  "examples": 9,
+  "systems": [
+    {
+      "system": "unmodified_flan_t5_small",
+      "examples": 9,
+      "validation_loss": 3.266581,
+      "perplexity": 26.221539,
+      "token_precision": 0.0,
+      "token_recall": 0.0,
+      "token_f1": 0.0,
+      "exact_progression_match": 0.0,
+      "json_parse_success_rate": 0.0,
+      "roman_numeral_validity_rate": 0.0,
+      "chord_validity_rate": 0.0,
+      "cadence_satisfaction_rate": 0.0,
+      "difficulty_compliance_rate": 0.0,
+      "progression_diversity": 0.0,
+      "duplicate_rate": 1.0,
+      "constraint_repair_rate": 0.0,
+      "average_inference_latency_ms": 1760.506
+    },
+    {
+      "system": "flan_t5_small_lora",
+      "examples": 9,
+      "validation_loss": 1.437104,
+      "perplexity": 4.208492,
+      "token_precision": 0.0,
+      "token_recall": 0.0,
+      "token_f1": 0.0,
+      "exact_progression_match": 0.0,
+      "json_parse_success_rate": 0.0,
+      "roman_numeral_validity_rate": 0.0,
+      "chord_validity_rate": 0.0,
+      "cadence_satisfaction_rate": 0.0,
+      "difficulty_compliance_rate": 0.0,
+      "progression_diversity": 0.0,
+      "duplicate_rate": 1.0,
+      "constraint_repair_rate": 0.0,
+      "average_inference_latency_ms": 8116.207
+    },
+    {
+      "system": "deterministic_theory_baseline",
+      "examples": 9,
+      "validation_loss": null,
+      "perplexity": null,
+      "token_precision": 0.527778,
+      "token_recall": 0.522222,
+      "token_f1": 0.521164,
+      "exact_progression_match": 0.111111,
+      "json_parse_success_rate": 1.0,
+      "roman_numeral_validity_rate": 1.0,
+      "chord_validity_rate": 1.0,
+      "cadence_satisfaction_rate": 0.333333,
+      "difficulty_compliance_rate": 1.0,
+      "progression_diversity": 0.444444,
+      "duplicate_rate": 0.555556,
+      "constraint_repair_rate": 0.666667,
+      "average_inference_latency_ms": 0.142
+    }
+  ],
+  "lora_minus_base": {
+    "token_f1": 0.0,
+    "exact_progression_match": 0.0,
+    "json_parse_success_rate": 0.0,
+    "roman_numeral_validity_rate": 0.0,
+    "chord_validity_rate": 0.0,
+    "cadence_satisfaction_rate": 0.0,
+    "difficulty_compliance_rate": 0.0
+  },
+  "summary": {
+    "base_token_f1": 0.0,
+    "lora_token_f1": 0.0,
+    "baseline_token_f1": 0.521164,
+    "development_run_limitation": "The development adapter ran for 80 optimizer steps on a small synthetic dataset. Loss improvement does not establish production-quality structured generation."
+  }
+}

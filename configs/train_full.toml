@@ -1,0 +1,25 @@
+base_model = "google/flan-t5-small"
+dataset_dir = "data/generated/full"
+output_dir = "storage/adapters/full"
+checkpoint_dir = "checkpoints/full"
+seed = 42
+lora_rank = 8
+lora_alpha = 16
+lora_dropout = 0.05
+target_modules = ["q", "v"]
+max_input_length = 512
+max_output_length = 256
+learning_rate = 0.0002
+warmup_ratio = 0.1
+weight_decay = 0.01
+epochs = 3
+max_steps = -1
+batch_size = 4
+gradient_accumulation_steps = 4
+eval_steps = 250
+save_steps = 250
+logging_steps = 25
+early_stopping_patience = 3
+mixed_precision = "auto"
+mlflow = true
+
