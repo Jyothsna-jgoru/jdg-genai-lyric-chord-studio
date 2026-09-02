@@ -14,7 +14,9 @@ WORKDIR /studio
 RUN groupadd --system studio && useradd --system --gid studio --create-home studio
 COPY pyproject.toml README.md LICENSE ./
 COPY app ./app
-RUN python -m pip install --upgrade pip && python -m pip install .
+RUN python -m pip install --upgrade pip \
+    && python -m pip install --index-url https://download.pytorch.org/whl/cpu "torch>=2.5,<3" \
+    && python -m pip install .
 COPY configs ./configs
 COPY data/samples ./data/samples
 COPY storage/adapters/dev ./storage/adapters/dev
