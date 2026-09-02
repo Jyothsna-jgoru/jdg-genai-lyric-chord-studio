@@ -16,6 +16,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      HF_HOME: ${{ github.workspace }}/storage/model-cache
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -27,7 +29,7 @@ jobs:
       - name: Cache Hugging Face base model
         uses: actions/cache@v6
         with:
-          path: ~/.cache/huggingface/hub
+          path: storage/model-cache/hub
           key: huggingface-flan-t5-small-v1
       - name: Prepare the base model for offline integration tests
         run: |
